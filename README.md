@@ -21,6 +21,8 @@ A simple RESTful API built with Go that returns profile information along with d
 ### Clone the Repository
 
 ```bash
+# Replace <your-repo-url> with the actual repository URL, e.g.:
+# git clone https://github.com/yourusername/profile-api.git
 git clone <your-repo-url>
 cd profile-api
 ```
