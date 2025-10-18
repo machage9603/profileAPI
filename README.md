@@ -167,105 +167,6 @@ for i in {1..3}; do curl http://localhost:8080/me | jq '.timestamp'; sleep 1; do
 curl -X POST http://localhost:8080/me
 ```
 
-### Automated Testing
-
-Create a file `main_test.go`:
-
-```go
-package main
-
-import (
-	"encoding/json"
-	"net/http"
-	"net/http/httptest"
-	"os"
-	"testing"
-	"time"
-)
-
-func TestProfileHandler(t *testing.T) {
-	// Set test environment variables
-	os.Setenv("USER_EMAIL", "test@example.com")
-	os.Setenv("USER_NAME", "Test User")
-	os.Setenv("USER_STACK", "Go/Test")
-
-	req, err := http.NewRequest("GET", "/me", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(profileHandler)
-	handler.ServeHTTP(rr, req)
-
-	// Check status code
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
-	}
-
-	// Check content type
-	if ct := rr.Header().Get("Content-Type"); ct != "application/json" {
-		t.Errorf("handler returned wrong content type: got %v want %v", ct, "application/json")
-	}
-
-	// Parse response
-	var response ProfileResponse
-	if err := json.NewDecoder(rr.Body).Decode(&response); err != nil {
-		t.Fatal(err)
-	}
-
-	// Validate response structure
-	if response.Status != "success" {
-		t.Errorf("expected status 'success', got '%s'", response.Status)
-	}
-
-	if response.User.Email != "test@example.com" {
-		t.Errorf("expected email 'test@example.com', got '%s'", response.User.Email)
-	}
-
-	if response.Timestamp == "" {
-		t.Error("timestamp should not be empty")
-	}
-
-	// Validate timestamp format
-	_, err = time.Parse(time.RFC3339Nano, response.Timestamp)
-	if err != nil {
-		t.Errorf("timestamp is not in valid ISO 8601 format: %v", err)
-	}
-
-	if response.Fact == "" {
-		t.Error("fact should not be empty")
-	}
-}
-
-func TestTimestampDynamic(t *testing.T) {
-	req1, _ := http.NewRequest("GET", "/me", nil)
-	req2, _ := http.NewRequest("GET", "/me", nil)
-
-	rr1 := httptest.NewRecorder()
-	rr2 := httptest.NewRecorder()
-
-	handler := http.HandlerFunc(profileHandler)
-
-	handler.ServeHTTP(rr1, req1)
-	time.Sleep(10 * time.Millisecond)
-	handler.ServeHTTP(rr2, req2)
-
-	var response1, response2 ProfileResponse
-	json.NewDecoder(rr1.Body).Decode(&response1)
-	json.NewDecoder(rr2.Body).Decode(&response2)
-
-	if response1.Timestamp == response2.Timestamp {
-		t.Error("timestamps should be different for different requests")
-	}
-}
-```
-
-Run tests:
-```bash
-go test -v
-```
-
 ## 🚢 Deployment
 
 ### Railway
@@ -360,7 +261,7 @@ MIT License - feel free to use this project for learning and development.
 **Your Name**
 - Email: mikemachage@gmail.com
 - GitHub: [@machage9603](https://github.com/machage9603)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/mikemachage)
+- LinkedIn: [Mike Machage](https://linkedin.com/in/mikemachage)
 
 ## Acknowledgments
 
