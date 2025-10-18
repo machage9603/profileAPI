@@ -90,7 +90,7 @@ func profileHandler(w http.ResponseWriter, r *http.Request) {
 	catFact, err := fetchCatFact()
 	if err != nil {
 		log.Printf("Error fetching cat fact: %v", err)
-		catFact = "Unable to fetch cat fact at this moment. Please try again later."
+		catFact = "Unable to fetch cat fact at this moment:'( Please try again later."
 	}
 
 	// Get user information from environment variables with defaults
