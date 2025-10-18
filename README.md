@@ -359,7 +359,7 @@ MIT License - feel free to use this project for learning and development.
 
 **Your Name**
 - Email: mikemachage@gmail.com
-- GitHub: [@yourusername](https://github.com/machage9603)
+- GitHub: [@machage9603](https://github.com/machage9603)
 - LinkedIn: [Your LinkedIn](https://linkedin.com/in/mikemachage)
 
 ## Acknowledgments
